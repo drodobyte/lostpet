@@ -1,0 +1,34 @@
+package util
+
+import android.os.Bundle
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import presentation.pet.PetFragmentArgs
+import presentation.pet.PetFragmentDirections
+import presentation.pets.PetsFragmentDirections
+
+class Go(private val fragment: AppFragment) {
+
+    val args: Arg by lazy {
+        Arg(fragment.arguments!!)
+    }
+
+    fun pet(id: Long) = go(PetsFragmentDirections.actionPetsToPet(id))
+
+    fun newPet() = go(PetsFragmentDirections.actionPetsToPet(new = true))
+
+    fun petLocation() {
+        go(PetFragmentDirections.actionPetToLocation())
+    }
+
+    fun back() {
+        fragment.findNavController().popBackStack()
+    }
+
+    class Arg(private val arguments: Bundle) {
+        fun pet() = PetFragmentArgs.fromBundle(arguments)
+    }
+
+    private fun go(directions: NavDirections) =
+        fragment.findNavController().navigate(directions)
+}
