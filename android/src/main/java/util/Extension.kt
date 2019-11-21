@@ -11,19 +11,33 @@ import drodobytecom.lostpet.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun ImageView.xLoadPetIcon(url: String) = Picasso.get()
-    .load(url)
-    .resize(140, 140)
-    .centerCrop()
-    .error(R.drawable.ic_alert_error)
-    .placeholder(R.drawable.ic_downloading)
-    .into(this)
+fun ImageView.xLoadPetIcon(url: String) =
+    if (url.isBlank())
+        Picasso.get()
+            .load(R.drawable.ic_alert_error)
+            .resize(140, 140)
+            .centerCrop()
+            .into(this)
+    else
+        Picasso.get()
+            .load(url)
+            .resize(140, 140)
+            .centerCrop()
+            .error(R.drawable.ic_alert_error)
+            .placeholder(R.drawable.ic_downloading)
+            .into(this)
 
-fun ImageView.xLoadPet(url: String) = Picasso.get()
-    .load(url)
-    .error(R.drawable.ic_alert_error)
-    .placeholder(R.drawable.ic_downloading)
-    .into(this)
+fun ImageView.xLoadPet(url: String) =
+    if (url.isBlank())
+        Picasso.get()
+            .load(R.drawable.ic_alert_error)
+            .into(this)
+    else
+        Picasso.get()
+            .load(url)
+            .error(R.drawable.ic_alert_error)
+            .placeholder(R.drawable.ic_downloading)
+            .into(this)
 
 fun Date.xFormatted(): String = DATE_FORMAT.format(this)
 

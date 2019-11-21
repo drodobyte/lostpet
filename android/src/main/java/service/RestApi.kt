@@ -1,13 +1,11 @@
 package service
 
 import entity.Pet
+import entity.isNew
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 internal object RestApi : PetService {
 
@@ -15,7 +13,8 @@ internal object RestApi : PetService {
 
     override fun pet(id: Long): Maybe<Pet> = api.pet(id)
 
-    override fun save(pet: Pet): Single<Pet> = api.save(pet)
+    override fun save(pet: Pet): Single<Pet> =
+        if (pet.isNew()) api.save(pet) else api.update(pet, pet.id)
 
 
     private val api: Api by lazy {
@@ -32,6 +31,9 @@ internal object RestApi : PetService {
 
         @POST("pets")
         fun save(@Body pet: Pet): Single<Pet>
+
+        @PUT("pets/{id}")
+        fun update(@Body pet: Pet, @Path("id") id: Long): Single<Pet>
     }
 
     private data class PetsData(val data: List<Pet>)

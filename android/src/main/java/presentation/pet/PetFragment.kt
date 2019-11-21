@@ -29,8 +29,7 @@ class PetFragment : AppFragment(), PetView {
     override fun showPet(pet: Pet) = with(pet) {
         current = copy()
         pet_name.setText(name)
-        if (imageUrl.isNotEmpty())
-            pet_image.xLoadPet(imageUrl)
+        pet_image.xLoadPet(imageUrl)
         pet_found.xShow(found)
         pet_description.setText(description)
         pet_location_date.xDate(location.date)
