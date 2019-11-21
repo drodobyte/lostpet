@@ -6,7 +6,7 @@ import io.reactivex.Observable
 
 class PetSummariesCaseService(val case: ListPetSummariesCase) : PetSummariesService {
 
-    override fun allPets(): Observable<PetSummary> = case.listAll()
+    override fun allPetsWithOneDummy(): Observable<PetSummary> = case.listAllWithOneDummy()
 
     override fun foundPets(): Observable<PetSummary> = case.listFound()
 

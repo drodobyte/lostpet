@@ -1,8 +1,23 @@
 package entity
 
-abstract class Entity(open val id: Long = 0) {
-    val undef: Boolean
-        get() = id == 0L
+import case.ListPetSummariesCase.PetSummary
 
-    fun isSame(other: Entity): Boolean = id == other.id && javaClass == other.javaClass
+interface Entity
+
+fun Entity.isSame(other: Entity) = isDef() && other.isDef() && id == other.id
+fun Entity.isDef() = !isUndef()
+fun Entity.isUndef() = id == 0L
+fun Iterable<Entity>.nextId() = map { it.id }.maxBy { it } ?: 1
+
+fun <T : Entity> MutableList<T>.replace(entity: T) {
+    this[indexOfFirst { it.isSame(entity) }] = entity
 }
+
+fun Pet.toPetSummary() = PetSummary(id, name, imageUrl)
+
+val Entity.id: Long
+    get() = when (this) {
+        is Pet -> id
+        is PetSummary -> id
+        else -> 0L
+    }

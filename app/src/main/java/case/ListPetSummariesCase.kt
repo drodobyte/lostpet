@@ -1,32 +1,46 @@
 package case
 
 import entity.Entity
+import entity.Location
 import entity.Pet
+import entity.toPetSummary
 import io.reactivex.Observable
 import service.PetService
 
 class ListPetSummariesCase(service: PetService) : Case(service) {
 
-    fun listAll(): Observable<PetSummary> =
-        service.pets()
-            .map(this::asPetSummary)
+    fun listAllWithOneDummy(): Observable<PetSummary> {
+        val pets = service.pets()
+        return pets.isEmpty.flatMapObservable { empty ->
+            if (empty)
+                service.save(dummy).toObservable()
+            else
+                pets
+        }.map(Pet::toPetSummary)
+    }
 
     fun listFound(): Observable<PetSummary> =
         service.pets()
             .filter { it.found }
-            .map(this::asPetSummary)
+            .map(Pet::toPetSummary)
 
     fun listLost(): Observable<PetSummary> =
         service.pets()
             .filter { !it.found }
-            .map(this::asPetSummary)
+            .map(Pet::toPetSummary)
 
     data class PetSummary(
-        override val id: Long = 0,
+        val id: Long = 0,
         val name: String = "",
         val imageUrl: String = ""
-    ) :
-        Entity(id)
+    ) : Entity
 
-    private fun asPetSummary(pet: Pet): PetSummary = PetSummary(pet.id, pet.name, pet.imageUrl)
+    private val dummy = Pet(
+        1,
+        "dummy",
+        "dummy desc",
+        "https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg",
+        false,
+        Location()
+    )
 }

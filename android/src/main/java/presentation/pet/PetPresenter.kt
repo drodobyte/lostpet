@@ -1,29 +1,10 @@
 package presentation.pet
 
 import entity.Pet
-import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
-interface PetView {
-    fun visiblePet(action: (id: Long) -> Unit)
-    fun visibleNewPet(action: () -> Unit)
-    fun clickedMap(action: () -> Unit)
-    fun clickedBack(action: () -> Unit)
-    fun showPet(pet: Maybe<Pet>)
-    fun showMap()
-    fun showErrorSave()
-    fun shownPet(): Single<Pet>
-    fun goBack()
-}
-
-interface PetService {
-    fun newPet(): Single<Pet>
-    fun pet(id: Long): Maybe<Pet>
-    fun save(pet: Pet): Completable
-}
-
-class PetPresenter(val view: PetView, val service: PetService) {
+class PetPresenter(view: PetView, service: PetService) {
     init {
         view.visiblePet {
             view.showPet(service.pet(it))
@@ -43,4 +24,22 @@ class PetPresenter(val view: PetView, val service: PetService) {
                 )
         }
     }
+}
+
+interface PetView {
+    fun visiblePet(action: (id: Long) -> Unit)
+    fun visibleNewPet(action: () -> Unit)
+    fun clickedMap(action: () -> Unit)
+    fun clickedBack(action: () -> Unit)
+    fun showPet(pet: Maybe<Pet>)
+    fun showMap()
+    fun showErrorSave()
+    fun shownPet(): Single<Pet>
+    fun goBack()
+}
+
+interface PetService {
+    fun newPet(): Single<Pet>
+    fun pet(id: Long): Maybe<Pet>
+    fun save(pet: Pet): Single<Pet>
 }

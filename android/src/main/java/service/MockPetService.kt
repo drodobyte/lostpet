@@ -1,10 +1,9 @@
 package service
 
-import entity.Location
-import entity.Pet
-import io.reactivex.Completable
+import entity.*
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import java.util.*
 import kotlin.random.Random.Default.nextBoolean
 import kotlin.random.Random.Default.nextDouble
@@ -17,13 +16,12 @@ class MockPetService : PetService {
 
     override fun pet(id: Long): Maybe<Pet> = Maybe.just(pets.findLast { it.id == id })
 
-    override fun save(pet: Pet): Completable {
-        val i = pets.indexOfFirst { it.isSame(pet) }
-        if (i == -1)
-            pets.add(pet)
+    override fun save(pet: Pet): Single<Pet> {
+        if (pet.isUndef())
+            pets.add(pet.copy(id = pets.nextId()))
         else
-            pets[i] = pet
-        return Completable.complete()
+            pets.replace(pet)
+        return Single.just(pets.single { it.id == pet.id })
     }
 
     private val pets: MutableList<Pet> by lazy {

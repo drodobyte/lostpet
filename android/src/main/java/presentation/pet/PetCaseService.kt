@@ -3,7 +3,6 @@ package presentation.pet
 import case.SavePetCase
 import case.ShowPetCase
 import entity.Pet
-import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -14,5 +13,5 @@ class PetCaseService(val showCase: ShowPetCase, val saveCase: SavePetCase) :
 
     override fun pet(id: Long): Maybe<Pet> = showCase.show(id)
 
-    override fun save(pet: Pet): Completable = saveCase.save(pet)
+    override fun save(pet: Pet): Single<Pet> = saveCase.save(pet)
 }
