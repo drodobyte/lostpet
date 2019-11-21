@@ -3,14 +3,13 @@ package presentation.pets
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import app.Container
 import case.ListPetSummariesCase
 import case.ListPetSummariesCase.PetSummary
 import drodobytecom.lostpet.R
-import util.AppFragment
-import app.Container
-import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject.create
 import kotlinx.android.synthetic.main.pets_fragment.*
+import util.AppFragment
 
 class PetsFragment : AppFragment(), PetSummariesView {
     override fun layout(): Int = R.layout.pets_fragment
@@ -38,8 +37,8 @@ class PetsFragment : AppFragment(), PetSummariesView {
         clickedNewPet.xSubscribe(action)
     }
 
-    override fun showSummaries(summaries: Observable<PetSummary>) {
-        summaries.xSubscribe { summary -> adapter + summary }
+    override fun showSummaries(summaries: List<PetSummary>) {
+        adapter + summaries
     }
 
     override fun showNewPet() {

@@ -34,8 +34,25 @@ abstract class AppAdapter<T>(
     operator fun get(i: Int) = items[i]
 
     operator fun plus(item: T) = items.apply {
+        clear()
         add(item)
         notifyItemInserted(size - 1)
+    }
+
+    operator fun plus(items: Iterable<T>) = this.items.apply {
+        clear()
+        addAll(items)
+        notifyDataSetChanged()
+    }
+
+    operator fun plusAssign(item: T) {
+        items.add(item)
+        notifyDataSetChanged()
+    }
+
+    operator fun plusAssign(items: Iterable<T>) {
+        this.items.addAll(items)
+        notifyDataSetChanged()
     }
 
     abstract class Holder<T>(override val containerView: View) :

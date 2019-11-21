@@ -29,10 +29,6 @@
         <action
             android:id="@+id/action_pet_to_location"
             app:destination="@id/pet_location_fragment" />
-        <argument
-            android:name="new"
-            android:defaultValue="false"
-            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/pet_location_fragment"

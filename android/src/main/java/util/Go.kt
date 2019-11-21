@@ -3,6 +3,7 @@ package util
 import android.os.Bundle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import entity.NEW
 import presentation.pet.PetFragmentArgs
 import presentation.pet.PetFragmentDirections
 import presentation.pets.PetsFragmentDirections
@@ -15,7 +16,7 @@ class Go(private val fragment: AppFragment) {
 
     fun pet(id: Long) = go(PetsFragmentDirections.actionPetsToPet(id))
 
-    fun newPet() = go(PetsFragmentDirections.actionPetsToPet(new = true))
+    fun newPet() = go(PetsFragmentDirections.actionPetsToPet(NEW))
 
     fun petLocation() {
         go(PetFragmentDirections.actionPetToLocation())

@@ -17,7 +17,7 @@ class MockPetService : PetService {
     override fun pet(id: Long): Maybe<Pet> = Maybe.just(pets.findLast { it.id == id })
 
     override fun save(pet: Pet): Single<Pet> {
-        if (pet.isUndef())
+        if (pet.isNew())
             pets.add(pet.copy(id = pets.nextId()))
         else
             pets.replace(pet)

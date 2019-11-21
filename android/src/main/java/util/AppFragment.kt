@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import app.App
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class AppFragment : Fragment() {
@@ -49,6 +50,10 @@ abstract class AppFragment : Fragment() {
     }
 
     fun <T> Maybe<T>.xSubscribe(onNext: (T) -> Unit) {
+        disposables.add(subscribe(onNext))
+    }
+
+    fun <T> Single<T>.xSubscribe(onNext: (T) -> Unit) {
         disposables.add(subscribe(onNext))
     }
 

@@ -9,9 +9,6 @@ import case.SavePetCase
 import case.ShowPetCase
 import drodobytecom.lostpet.R
 import entity.Pet
-import io.reactivex.Maybe
-import io.reactivex.Single
-import io.reactivex.Single.just
 import io.reactivex.subjects.PublishSubject.create
 import kotlinx.android.synthetic.main.pet_fragment.*
 import util.*
@@ -22,28 +19,21 @@ class PetFragment : AppFragment(), PetView {
 
     private val clickedMap = create<Any>()
     private val clickedBack = create<Any>()
-    private val visibleNewPet = create<Any>()
     private val visiblePet = create<Long>()
     private lateinit var current: Pet
-
-    override fun visibleNewPet(action: () -> Unit) {
-        visibleNewPet.xSubscribe(action)
-    }
 
     override fun visiblePet(action: (id: Long) -> Unit) {
         visiblePet.xSubscribe(action)
     }
 
-    override fun showPet(pet: Maybe<Pet>) {
-        pet.xSubscribe {
-            current = it.copy()
-            pet_name.setText(it.name)
-            if (it.imageUrl.isNotEmpty())
-                pet_image.xLoadPet(it.imageUrl)
-            pet_found.xShow(it.found)
-            pet_description.setText(it.description)
-            pet_location_date.xDate(it.location.date)
-        }
+    override fun showPet(pet: Pet) = with(pet) {
+        current = copy()
+        pet_name.setText(name)
+        if (imageUrl.isNotEmpty())
+            pet_image.xLoadPet(imageUrl)
+        pet_found.xShow(found)
+        pet_description.setText(description)
+        pet_location_date.xDate(location.date)
     }
 
     override fun showMap() {
@@ -62,15 +52,13 @@ class PetFragment : AppFragment(), PetView {
         Toast.makeText(context, "error", Toast.LENGTH_LONG).show()
     }
 
-    override fun shownPet(): Single<Pet> = just(
-        Pet(
-            current.id,
-            pet_name.text.toString(),
-            pet_description.text.toString(),
-            current.imageUrl,
-            current.found,
-            current.location
-        )
+    override fun filledPet() = Pet(
+        current.id,
+        pet_name.text.toString(),
+        pet_description.text.toString(),
+        current.imageUrl,
+        current.found,
+        current.location
     )
 
     override fun goBack() {
@@ -98,9 +86,6 @@ class PetFragment : AppFragment(), PetView {
                 }
             }
         )
-        if (go.args.pet().new)
-            visibleNewPet.onNext(Any())
-        else
-            visiblePet.onNext(go.args.pet().id)
+        visiblePet.onNext(go.args.pet().id)
     }
 }
