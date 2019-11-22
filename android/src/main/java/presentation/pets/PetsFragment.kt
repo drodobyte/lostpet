@@ -41,10 +41,6 @@ class PetsFragment : AppFragment(), PetSummariesView {
         adapter + summaries
     }
 
-    override fun showNewPet() {
-        go.newPet()
-    }
-
     override fun showPet(id: Long) {
         go.pet(id)
     }
