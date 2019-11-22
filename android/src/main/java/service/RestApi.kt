@@ -9,11 +9,11 @@ import retrofit2.http.*
 
 internal object RestApi : PetService {
 
-    override fun pets(): Observable<Pet> = api.pets().flatMapIterable { it.data }
+    override fun pets() = api.pets().flatMapIterable { it.data }!!
 
-    override fun pet(id: Long): Maybe<Pet> = api.pet(id)
+    override fun pet(id: Long) = api.pet(id)
 
-    override fun save(pet: Pet): Single<Pet> =
+    override fun save(pet: Pet) =
         if (pet.isNew()) api.save(pet) else api.update(pet, pet.id)
 
 

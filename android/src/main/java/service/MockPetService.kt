@@ -12,9 +12,9 @@ import kotlin.random.Random.Default.nextLong
 
 class MockPetService : PetService {
 
-    override fun pets(): Observable<Pet> = Observable.fromIterable(pets)
+    override fun pets() = Observable.fromIterable(pets)
 
-    override fun pet(id: Long): Maybe<Pet> = Maybe.just(pets.findLast { it.id == id })
+    override fun pet(id: Long) = Maybe.just(pets.single { it.id == id })
 
     override fun save(pet: Pet): Single<Pet> {
         if (pet.isNew())
@@ -38,7 +38,7 @@ class MockPetService : PetService {
         )
     }
 
-    private fun aPet(id: Long): Pet = Pet(
+    private fun aPet(id: Long) = Pet(
         id, "name_$id", "description_$id",
         "https://images.dog.ceo/breeds/hound-afghan/n02088094_$id.jpg",
         nextBoolean(),
