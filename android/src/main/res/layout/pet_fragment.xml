@@ -96,17 +96,15 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/pet_location_pin"
         app:layout_constraintStart_toEndOf="@+id/pet_location_pin" />
 
-    <EditText
+    <TextView
         android:id="@+id/pet_location_date"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:importantForAutofill="no"
-        android:editable="false"
-        android:inputType="date"
         android:text="@string/never"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        tools:text="April-20-2019" />
+        tools:text="2019 Apr. 12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

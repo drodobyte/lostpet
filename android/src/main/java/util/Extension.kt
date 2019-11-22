@@ -1,15 +1,15 @@
 package util
 
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.squareup.picasso.Picasso
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener
 import drodobytecom.lostpet.R
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar.*
 
 fun ImageView.xLoadPetIcon(url: String) =
     if (url.isBlank())
@@ -39,29 +39,36 @@ fun ImageView.xLoadPet(url: String) =
             .placeholder(R.drawable.ic_downloading)
             .into(this)
 
+fun Triple<Int, Int, Int>.asDate(): Date = getInstance().apply {
+    set(YEAR, first)
+    set(MONTH, second)
+    set(DAY_OF_MONTH, third)
+}.time
+
+fun Date.asCalendar(): Calendar {
+    val c = getInstance()
+    c.time = this
+    return c
+}
+
 fun Date.xFormatted(): String = DATE_FORMAT.format(this)
 
-fun Date.xFormatted(year: Int, month: Int, day: Int): String = "$year/$month/$day"
-
-fun Date.xShow(fragmentManager: FragmentManager?, date: String, onChange: OnDateSetListener) {
-    val now = Calendar.getInstance()
-    now.time = DATE_FORMAT.parse(date)!!
+fun Date.xShowDialog(
+    fragmentManager: FragmentManager?, onDateSet: (Date) -> Unit
+) {
+    val now = asCalendar()
     DatePickerDialog.newInstance(
-        onChange,
-        now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
-    )
-        .show(fragmentManager!!, "picker")
+        { _, year, month, day ->
+            val date = Triple(year, month, day).asDate()
+            time = date.time
+            onDateSet(date)
+        },
+        now.get(YEAR), now.get(MONTH), now.get(DAY_OF_MONTH)
+    ).show(fragmentManager!!, "picker")
 }
 
-fun EditText.xShowDialog(fragmentManager: FragmentManager?) {
-    Date().xShow(fragmentManager, text.toString(),
-        OnDateSetListener { _, y, m, d ->
-            setText(Date().xFormatted(y, m, d))
-        })
-}
-
-fun EditText.xDate(date: Date) {
-    setText(date.xFormatted())
+fun TextView.xDate(date: Date) {
+    text = date.xFormatted()
 }
 
 fun View.xShow() {
@@ -80,4 +87,4 @@ fun View.xShow(show: Boolean) {
     if (show) xShow() else xHide()
 }
 
-private val DATE_FORMAT = SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+private val DATE_FORMAT = SimpleDateFormat("yyyy/MMM/dd", Locale.getDefault())

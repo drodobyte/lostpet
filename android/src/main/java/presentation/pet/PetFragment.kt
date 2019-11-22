@@ -76,7 +76,9 @@ class PetFragment : AppFragment(), PetView {
             clickedMap.onNext(Any())
         }
         pet_location_date.setOnClickListener {
-            pet_location_date.xShowDialog(fragmentManager)
+            current.location.date.xShowDialog(fragmentManager) {
+                pet_location_date.text = it.xFormatted()
+            }
         }
         requireActivity().onBackPressedDispatcher.addCallback(
             this, object : OnBackPressedCallback(true) {
