@@ -1,5 +1,6 @@
 package service
 
+import android.content.Context
 import entity.Pet
 import io.reactivex.Maybe
 import io.reactivex.Observable
@@ -7,22 +8,26 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.io
 
-class AndroidPetService : PetService {
+class AndroidPetService(context: Context) : PetService {
 
-    private val api: RestApi by lazy {
+    private val rest: RestApi by lazy {
         RestApi
+    }
+    private val db: DbApi by lazy {
+        DbApi.context = context
+        DbApi
     }
 
     override fun pets(): Observable<Pet> {
-        return api.pets().setup()
+        return rest.pets().setup()
     }
 
     override fun pet(id: Long): Maybe<Pet> {
-        return api.pet(id).setup()
+        return rest.pet(id).setup()
     }
 
     override fun save(pet: Pet): Single<Pet> {
-        return api.save(pet).setup()
+        return rest.save(pet).setup()
     }
 
     private fun <T> Observable<T>.setup() = subscribeOn(io()).observeOn(mainThread())

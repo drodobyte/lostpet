@@ -1,11 +1,19 @@
 package app
 
-import drodobytecom.lostpet.BuildConfig
+import android.content.Context
+import drodobytecom.lostpet.BuildConfig.BUILD_TYPE
 import service.AndroidPetService
 import service.MockPetService
 import service.PetService
 
 object Container {
-    const val usingMock = BuildConfig.BUILD_TYPE == "mock"
-    val petService: PetService = if (usingMock) MockPetService() else AndroidPetService()
+
+    lateinit var context: Context
+
+    val petService: PetService by lazy {
+        if (BUILD_TYPE == "mock")
+            MockPetService()
+        else
+            AndroidPetService(context)
+    }
 }
