@@ -5,8 +5,7 @@ import entity.Pet
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.schedulers.Schedulers.io
+import util.onIO
 
 class AndroidPetService(context: Context) : PetService {
 
@@ -19,18 +18,14 @@ class AndroidPetService(context: Context) : PetService {
     }
 
     override fun pets(): Observable<Pet> {
-        return rest.pets().setup()
+        return rest.pets().onIO()
     }
 
     override fun pet(id: Long): Maybe<Pet> {
-        return rest.pet(id).setup()
+        return rest.pet(id).onIO()
     }
 
     override fun save(pet: Pet): Single<Pet> {
-        return rest.save(pet).setup()
+        return rest.save(pet).onIO()
     }
-
-    private fun <T> Observable<T>.setup() = subscribeOn(io()).observeOn(mainThread())
-    private fun <T> Maybe<T>.setup() = subscribeOn(io()).observeOn(mainThread())
-    private fun <T> Single<T>.setup() = subscribeOn(io()).observeOn(mainThread())
 }

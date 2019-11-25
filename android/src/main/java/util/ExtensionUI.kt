@@ -27,18 +27,6 @@ fun ImageView.xLoadPet(url: String) =
         .placeholder(R.drawable.ic_downloading)
         .into(this)
 
-fun Triple<Int, Int, Int>.asDate(): Date = getInstance().apply {
-    set(YEAR, first)
-    set(MONTH, second)
-    set(DAY_OF_MONTH, third)
-}.time
-
-fun Date.asCalendar(): Calendar {
-    val c = getInstance()
-    c.time = this
-    return c
-}
-
 fun Date.xFormatted(): String = DATE_FORMAT.format(this)
 
 fun Date.xShowDialog(
