@@ -12,32 +12,20 @@ import java.util.*
 import java.util.Calendar.*
 
 fun ImageView.xLoadPetIcon(url: String) =
-    if (url.isBlank())
-        Picasso.get()
-            .load(R.drawable.ic_alert_error)
-            .resize(140, 140)
-            .centerCrop()
-            .into(this)
-    else
-        Picasso.get()
-            .load(url)
-            .resize(140, 140)
-            .centerCrop()
-            .error(R.drawable.ic_alert_error)
-            .placeholder(R.drawable.ic_downloading)
-            .into(this)
+    Picasso.get()
+        .load(if (url.isBlank()) "_undef_" else url)
+        .resize(140, 140)
+        .centerCrop()
+        .error(R.drawable.ic_alert_error)
+        .placeholder(R.drawable.ic_downloading)
+        .into(this)
 
 fun ImageView.xLoadPet(url: String) =
-    if (url.isBlank())
-        Picasso.get()
-            .load(R.drawable.ic_alert_error)
-            .into(this)
-    else
-        Picasso.get()
-            .load(url)
-            .error(R.drawable.ic_alert_error)
-            .placeholder(R.drawable.ic_downloading)
-            .into(this)
+    Picasso.get()
+        .load(if (url.isBlank()) "_undef_" else url)
+        .error(R.drawable.ic_alert_error)
+        .placeholder(R.drawable.ic_downloading)
+        .into(this)
 
 fun Triple<Int, Int, Int>.asDate(): Date = getInstance().apply {
     set(YEAR, first)
