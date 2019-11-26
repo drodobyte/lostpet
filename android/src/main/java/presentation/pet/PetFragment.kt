@@ -27,7 +27,8 @@ class PetFragment : AppFragment(), PetView {
         petViewModel.pet = copy()
         pet_name.setText(name)
         pet_image.xLoadPet(imageUrl)
-        pet_found.xShow(found)
+        pet_found_icon.xShow(found)
+        pet_found.isChecked = found
         pet_description.setText(description)
         pet_location_date.xDate(location.date)
     }
@@ -53,7 +54,7 @@ class PetFragment : AppFragment(), PetView {
         pet_name.text.toString(),
         pet_description.text.toString(),
         petViewModel.pet.imageUrl,
-        petViewModel.pet.found,
+        pet_found.isChecked,
         petViewModel.pet.location
     )
 
@@ -77,6 +78,9 @@ class PetFragment : AppFragment(), PetView {
             petViewModel.pet.location.date.xShowDialog(fragmentManager) {
                 pet_location_date.text = it.xFormatted()
             }
+        }
+        pet_found.setOnCheckedChangeListener { _, checked ->
+            pet_found_icon.xShow(checked)
         }
         requireActivity().onBackPressed {
             clickedBack.onNext(Any())

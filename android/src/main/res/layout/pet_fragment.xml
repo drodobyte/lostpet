@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context="presentation.pet.PetFragment">
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pet_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:context="presentation.pet.PetFragment">
 
         <EditText
             android:id="@+id/pet_name"
@@ -41,7 +41,7 @@
             tools:srcCompat="@tools:sample/avatars[5]" />
 
         <ImageView
-            android:id="@+id/pet_found"
+            android:id="@+id/pet_found_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -93,6 +93,16 @@
             app:layout_constraintStart_toEndOf="@+id/textView2"
             tools:text="2019 Apr. 12" />
 
+        <CheckBox
+            android:id="@+id/pet_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/found"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pet_location_pin" />
+
         <EditText
             android:id="@+id/pet_description"
             android:layout_width="0dp"
@@ -109,7 +119,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/pet_found"
             tools:text="@tools:sample/lorem/random" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
