@@ -7,4 +7,6 @@ data class Location(
     val x: Double = 0.0,
     val y: Double = 0.0,
     val z: Double = 0.0
-)
+) {
+    val undefined get() = x == 0.0 && y == 0.0 && z == 0.0
+}

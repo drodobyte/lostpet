@@ -2,7 +2,9 @@ package util
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import app.App
 import io.reactivex.Maybe
 import io.reactivex.Observable
@@ -23,6 +25,10 @@ abstract class AppFragment : Fragment() {
 //        val type = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0]
 //        ViewModelProviders.of(this, app.viewModelFactory).get(type as Class<P>)
 //    }
+
+    val petViewModel: PetViewModel by lazy {
+        ViewModelProviders.of(activity!!)[PetViewModel::class.java]
+    }
 
     final override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -55,6 +61,10 @@ abstract class AppFragment : Fragment() {
 
     fun <T> Single<T>.xSubscribe(onNext: (T) -> Unit) {
         disposables.add(subscribe(onNext))
+    }
+
+    fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {

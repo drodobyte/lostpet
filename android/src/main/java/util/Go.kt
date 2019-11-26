@@ -15,9 +15,7 @@ class Go(private val fragment: AppFragment) {
 
     fun pet(id: Long) = go(PetsFragmentDirections.actionPetsToPet(id))
 
-    fun petLocation() {
-        go(PetFragmentDirections.actionPetToLocation())
-    }
+    fun petLocation() = go(PetFragmentDirections.actionPetToLocation())
 
     fun back() {
         fragment.findNavController().popBackStack()

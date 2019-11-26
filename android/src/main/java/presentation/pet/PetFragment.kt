@@ -2,8 +2,6 @@ package presentation.pet
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import app.Container
 import case.SavePetCase
 import case.ShowPetCase
@@ -19,15 +17,14 @@ class PetFragment : AppFragment(), PetView {
 
     private val clickedMap = create<Any>()
     private val clickedBack = create<Any>()
-    private val visiblePet = create<Long>()
-    private lateinit var current: Pet
+    private val visiblePet = create<Pair<Long, Boolean>>()
 
-    override fun visiblePet(action: (id: Long) -> Unit) {
-        visiblePet.xSubscribe(action)
+    override fun visiblePet(action: (Long, Boolean) -> Unit) {
+        visiblePet.xSubscribe { (id, editing) -> action(id, editing) }
     }
 
     override fun showPet(pet: Pet) = with(pet) {
-        current = copy()
+        petViewModel.pet = copy()
         pet_name.setText(name)
         pet_image.xLoadPet(imageUrl)
         pet_found.xShow(found)
@@ -48,19 +45,20 @@ class PetFragment : AppFragment(), PetView {
     }
 
     override fun showErrorSave() {
-        Toast.makeText(context, "error", Toast.LENGTH_LONG).show()
+        showError("Error saving pet!")
     }
 
     override fun filledPet() = Pet(
-        current.id,
+        petViewModel.pet.id,
         pet_name.text.toString(),
         pet_description.text.toString(),
-        current.imageUrl,
-        current.found,
-        current.location
+        petViewModel.pet.imageUrl,
+        petViewModel.pet.found,
+        petViewModel.pet.location
     )
 
     override fun goBack() {
+        petViewModel.clear()
         go.back()
     }
 
@@ -76,17 +74,13 @@ class PetFragment : AppFragment(), PetView {
             clickedMap.onNext(Any())
         }
         pet_location_date.setOnClickListener {
-            current.location.date.xShowDialog(fragmentManager) {
+            petViewModel.pet.location.date.xShowDialog(fragmentManager) {
                 pet_location_date.text = it.xFormatted()
             }
         }
-        requireActivity().onBackPressedDispatcher.addCallback(
-            this, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    clickedBack.onNext(Any())
-                }
-            }
-        )
-        visiblePet.onNext(go.args.pet().id)
+        requireActivity().onBackPressed {
+            clickedBack.onNext(Any())
+        }
+        visiblePet.onNext(Pair(go.args.pet().id, !petViewModel.pet.undefined))
     }
 }

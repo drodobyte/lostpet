@@ -1,12 +1,21 @@
 package util
 
+import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
 import com.squareup.picasso.Picasso
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import drodobytecom.lostpet.R
+import entity.Location
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Calendar.*
@@ -61,6 +70,42 @@ fun View.xGone() {
 
 fun View.xShow(show: Boolean) {
     if (show) xShow() else xHide()
+}
+
+fun FragmentActivity.onBackPressed(action: () -> Unit) {
+    onBackPressedDispatcher.addCallback(
+        this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                action()
+            }
+        }
+    )
+}
+
+fun CameraPosition.toLocation() = let {
+    Location(Date(), it.target.latitude, it.target.longitude, it.zoom.toDouble())
+}
+
+fun GoogleMap.showUser(show: Boolean) {
+    isMyLocationEnabled = show
+    uiSettings.isMyLocationButtonEnabled = show
+}
+
+fun GoogleMap.moveTo(location: Location, showUser: Boolean = false) = moveCamera(with(location) {
+    showUser(showUser)
+    CameraUpdateFactory.newLatLngZoom(LatLng(x, y), z.toFloat())
+})
+
+fun GoogleMap.moveToUser(context: Context?) {
+    showUser(true)
+    LocationServices.getFusedLocationProviderClient(context!!).lastLocation
+        .addOnSuccessListener { loc ->
+            moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(loc.latitude, loc.longitude), 16f
+                )
+            )
+        }
 }
 
 private val DATE_FORMAT = SimpleDateFormat("yyyy/MMM/dd", Locale.getDefault())

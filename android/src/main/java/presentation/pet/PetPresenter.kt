@@ -7,11 +7,14 @@ import io.reactivex.Single
 
 class PetPresenter(view: PetView, service: PetService) {
     init {
-        view.visiblePet {
-            when (it) {
-                NEW -> service.newPet().toMaybe()
-                else -> service.pet(it)
-            }.subscribe(view::showPet)
+        view.visiblePet { id, editing ->
+            if (editing)
+                view.showPet(view.filledPet())
+            else
+                when (id) {
+                    NEW -> service.newPet().toMaybe()
+                    else -> service.pet(id)
+                }.subscribe(view::showPet)
         }
         view.clickedMap {
             view.showMap()
@@ -27,7 +30,7 @@ class PetPresenter(view: PetView, service: PetService) {
 }
 
 interface PetView {
-    fun visiblePet(action: (id: Long) -> Unit)
+    fun visiblePet(action: (id: Long, editing: Boolean) -> Unit)
     fun clickedMap(action: () -> Unit)
     fun clickedBack(action: () -> Unit)
     fun showPet(pet: Pet)
