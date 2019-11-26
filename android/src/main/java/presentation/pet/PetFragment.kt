@@ -68,7 +68,7 @@ class PetFragment : AppFragment(), PetView {
     )
 
     override fun goBack() {
-        petViewModel.clear()
+        petViewModel.reset()
         go.back()
     }
 

@@ -10,7 +10,7 @@ class PetViewModel : ViewModel() {
 
     var pet: Pet = Pet()
 
-    fun clear() {
+    fun reset() {
         pet = Pet()
     }
 }
