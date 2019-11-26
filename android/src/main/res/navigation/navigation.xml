@@ -29,10 +29,18 @@
         <action
             android:id="@+id/action_pet_to_location"
             app:destination="@id/pet_location_fragment" />
+        <action
+            android:id="@+id/action_pet_to_gallery"
+            app:destination="@id/pets_gallery_fragment" />
     </fragment>
     <fragment
         android:id="@+id/pet_location_fragment"
         android:name="presentation.petlocation.PetLocationFragment"
         android:label="fragment_map"
         tools:layout="@layout/pet_location_fragment" />
+    <fragment
+        android:id="@+id/pets_gallery_fragment"
+        android:name="presentation.petgallery.PetsGalleryFragment"
+        android:label="pets_gallery_fragment"
+        tools:layout="@layout/pets_gallery_fragment" />
 </navigation>

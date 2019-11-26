@@ -15,6 +15,7 @@ class PetFragment : AppFragment(), PetView {
 
     override fun layout(): Int = R.layout.pet_fragment
 
+    private val clickedImage = create<String>()
     private val clickedMap = create<Any>()
     private val clickedBack = create<Any>()
     private val visiblePet = create<Pair<Long, Boolean>>()
@@ -33,8 +34,16 @@ class PetFragment : AppFragment(), PetView {
         pet_location_date.xDate(location.date)
     }
 
+    override fun showPetGallery() {
+        go.petGallery()
+    }
+
     override fun showMap() {
         go.petLocation()
+    }
+
+    override fun clickedImage(action: (url: String) -> Unit) {
+        clickedImage.xSubscribe(action)
     }
 
     override fun clickedMap(action: () -> Unit) {
@@ -71,6 +80,9 @@ class PetFragment : AppFragment(), PetView {
                 SavePetCase(Container.petService)
             )
         )
+        pet_image.setOnClickListener {
+            clickedImage.onNext(petViewModel.pet.imageUrl)
+        }
         pet_location_pin.setOnClickListener {
             clickedMap.onNext(Any())
         }

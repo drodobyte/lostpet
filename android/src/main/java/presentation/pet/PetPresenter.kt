@@ -16,6 +16,9 @@ class PetPresenter(view: PetView, service: PetService) {
                     else -> service.pet(id)
                 }.subscribe(view::showPet)
         }
+        view.clickedImage {
+            view.showPetGallery()
+        }
         view.clickedMap {
             view.showMap()
         }
@@ -31,9 +34,11 @@ class PetPresenter(view: PetView, service: PetService) {
 
 interface PetView {
     fun visiblePet(action: (id: Long, editing: Boolean) -> Unit)
+    fun clickedImage(action: (url: String) -> Unit)
     fun clickedMap(action: () -> Unit)
     fun clickedBack(action: () -> Unit)
     fun showPet(pet: Pet)
+    fun showPetGallery()
     fun showMap()
     fun showErrorSave()
     fun filledPet(): Pet
