@@ -32,6 +32,7 @@ class PetFragment : AppFragment(), PetView {
         pet_found.isChecked = found
         pet_description.setText(description)
         pet_location_date.xDate(location.date)
+        pet_touch_image_message.xShow(imageUrl.isBlank())
     }
 
     override fun showPetGallery() {

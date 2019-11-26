@@ -12,4 +12,5 @@
     <string name="never">(never)</string>
     <string name="pet_name">Pet name</string>
     <string name="pet_description">Pet description</string>
+    <string name="touch_to_choose_an_image">Touch to choose an image</string>
 </resources>
