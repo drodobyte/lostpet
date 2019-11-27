@@ -26,7 +26,7 @@ class PetPresenter(view: PetView, service: PetService) {
             service.save(view.filledPet())
                 .subscribe(
                     { view.goBack() },
-                    { view.showErrorSave() }
+                    { view.showErrorSave(it) }
                 )
         }
     }
@@ -40,7 +40,7 @@ interface PetView {
     fun showPet(pet: Pet)
     fun showPetGallery()
     fun showMap()
-    fun showErrorSave()
+    fun showErrorSave(ex: Throwable)
     fun filledPet(): Pet
     fun goBack()
 }

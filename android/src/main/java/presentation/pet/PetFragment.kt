@@ -3,6 +3,7 @@ package presentation.pet
 import android.os.Bundle
 import android.view.View
 import app.Container
+import case.Checker.Error
 import case.SavePetCase
 import case.ShowPetCase
 import drodobytecom.lostpet.R
@@ -55,8 +56,14 @@ class PetFragment : AppFragment(), PetView {
         clickedBack.xSubscribe(action)
     }
 
-    override fun showErrorSave() {
-        showError("Error saving pet!")
+    override fun showErrorSave(ex: Throwable) {
+        if (ex is Check.CheckException)
+            when {
+                Error.NameEmpty in ex.errors -> pet_name.error = "Name cannot be empty"
+                Error.ImageEmpty in ex.errors -> showError("Image cannot be empty")
+            }
+        else
+            showError("Undefined error saving pet!")
     }
 
     override fun filledPet() = Pet(
