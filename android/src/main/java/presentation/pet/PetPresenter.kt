@@ -1,6 +1,6 @@
 package presentation.pet
 
-import entity.NEW
+import entity.Entity.Companion.NEW
 import entity.Pet
 import io.reactivex.Maybe
 import io.reactivex.Single

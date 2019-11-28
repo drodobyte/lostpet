@@ -1,7 +1,6 @@
 package service
 
 import entity.Pet
-import entity.isNew
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single

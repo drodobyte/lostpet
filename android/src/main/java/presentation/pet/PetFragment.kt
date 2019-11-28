@@ -3,7 +3,8 @@ package presentation.pet
 import android.os.Bundle
 import android.view.View
 import app.Container
-import case.Checker.Error
+import case.Checker.Error.ImageEmpty
+import case.Checker.Error.NameEmpty
 import case.SavePetCase
 import case.ShowPetCase
 import drodobytecom.lostpet.R
@@ -11,6 +12,7 @@ import entity.Pet
 import io.reactivex.subjects.PublishSubject.create
 import kotlinx.android.synthetic.main.pet_fragment.*
 import util.*
+import util.Check.*
 
 class PetFragment : AppFragment(), PetView {
 
@@ -57,10 +59,10 @@ class PetFragment : AppFragment(), PetView {
     }
 
     override fun showErrorSave(ex: Throwable) {
-        if (ex is Check.CheckException)
+        if (ex is CheckException)
             when {
-                Error.NameEmpty in ex.errors -> pet_name.error = "Name cannot be empty"
-                Error.ImageEmpty in ex.errors -> showError("Image cannot be empty")
+                NameEmpty in ex.errors -> pet_name.error = "Name cannot be empty"
+                ImageEmpty in ex.errors -> showError("Image cannot be empty")
             }
         else
             showError("Undefined error saving pet!")

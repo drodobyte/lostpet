@@ -1,6 +1,9 @@
 package service
 
-import entity.*
+import entity.Location
+import entity.Pet
+import entity.nextId
+import entity.replace
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single

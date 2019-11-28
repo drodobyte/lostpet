@@ -30,7 +30,7 @@ class ListPetSummariesCase(service: PetService) : Case(service) {
             .map(Pet::toPetSummary)
 
     data class PetSummary(
-        val id: Long = 0,
+        override val id: Long = Entity.NEW,
         val name: String = "",
         val imageUrl: String = ""
     ) : Entity

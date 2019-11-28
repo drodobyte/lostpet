@@ -3,8 +3,8 @@ package service
 import android.content.Context
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
+import entity.Entity.Companion.NEW
 import entity.Location
-import entity.NEW
 import entity.Pet
 import io.reactivex.Maybe
 import io.reactivex.Observable

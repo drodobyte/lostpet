@@ -1,7 +1,7 @@
 package entity
 
 data class Pet(
-    val id: Long = NEW,
+    override val id: Long = Entity.NEW,
     val name: String = "",
     val description: String = "",
     val imageUrl: String = "",
@@ -9,6 +9,6 @@ data class Pet(
     val location: Location = Location()
 ) : Entity {
     val undefined
-        get() = id == NEW && name == "" && description == "" && imageUrl == "" && !found && location.undefined
+        get() = isNew() && name == "" && description == "" && imageUrl == "" && !found && location.undefined
 }
 

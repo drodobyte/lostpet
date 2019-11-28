@@ -1,7 +1,7 @@
 package presentation.pets
 
 import case.ListPetSummariesCase.PetSummary
-import entity.NEW
+import entity.Entity.Companion.NEW
 import io.reactivex.Observable
 import presentation.pets.Filter.*
 
