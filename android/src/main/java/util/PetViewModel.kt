@@ -8,9 +8,9 @@ import entity.Pet
  */
 class PetViewModel : ViewModel() {
 
-    var pet: Pet = Pet()
+    var pet: Pet = Pet(null)
 
     fun reset() {
-        pet = Pet()
+        pet = Pet(null)
     }
 }

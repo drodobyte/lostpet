@@ -1,7 +1,6 @@
 package presentation.pets
 
 import case.ListPetSummariesCase.PetSummary
-import entity.Entity.Companion.NEW
 import io.reactivex.Observable
 import presentation.pets.Filter.*
 
@@ -22,7 +21,7 @@ class PetSummariesPresenter(view: PetSummariesView, service: PetSummariesService
             )
         }
         view.clickedNewPet {
-            view.showPet(NEW)
+            view.showPet(null)
         }
         view.clickedPetSummary {
             view.showPet(it)
@@ -40,7 +39,7 @@ interface PetSummariesView {
     fun clickedPetSummary(action: (id: Long) -> Unit)
     fun clickedNewPet(action: () -> Unit)
     fun showSummaries(summaries: List<PetSummary>)
-    fun showPet(id: Long)
+    fun showPet(id: Long?)
 }
 
 interface PetSummariesService {

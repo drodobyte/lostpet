@@ -24,8 +24,9 @@
         tools:layout="@layout/pet_fragment">
         <argument
             android:name="id"
-            android:defaultValue="0L"
-            app:argType="long" />
+            app:nullable="true"
+            app:argType="long[]"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_pet_to_location"
             app:destination="@id/pet_location_fragment" />

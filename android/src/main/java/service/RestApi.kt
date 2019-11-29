@@ -13,7 +13,7 @@ internal object RestApi : PetService {
     override fun pet(id: Long) = api.pet(id)
 
     override fun save(pet: Pet) =
-        if (pet.isNew()) api.save(pet) else api.update(pet, pet.id)
+        if (pet.isNew()) api.save(pet) else api.update(pet, pet.id!!)
 
 
     private val api: Api by lazy {

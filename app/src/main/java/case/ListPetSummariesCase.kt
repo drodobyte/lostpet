@@ -1,6 +1,6 @@
 package case
 
-import entity.Entity
+import com.drodobyte.core.kotlin.entity.Entity
 import entity.Location
 import entity.Pet
 import entity.toPetSummary
@@ -30,7 +30,7 @@ class ListPetSummariesCase(service: PetService) : Case(service) {
             .map(Pet::toPetSummary)
 
     data class PetSummary(
-        override val id: Long = Entity.NEW,
+        override val id: Long?,
         val name: String = "",
         val imageUrl: String = ""
     ) : Entity

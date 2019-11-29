@@ -13,7 +13,8 @@ class Go(private val fragment: AppFragment) {
         Arg(fragment.arguments!!)
     }
 
-    fun pet(id: Long) = go(PetsFragmentDirections.actionPetsToPet(id))
+    fun pet(id: Long?) =
+        go(PetsFragmentDirections.actionPetsToPet(id?.let { longArrayOf(it) }))
 
     fun petGallery() {
         go(PetFragmentDirections.actionPetToGallery())
@@ -26,7 +27,8 @@ class Go(private val fragment: AppFragment) {
     }
 
     class Arg(private val arguments: Bundle) {
-        fun pet() = PetFragmentArgs.fromBundle(arguments)
+        fun pet(): Long? =
+            PetFragmentArgs.fromBundle(arguments).id?.get(0)
     }
 
     private fun go(directions: NavDirections) =

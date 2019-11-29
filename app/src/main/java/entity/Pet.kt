@@ -1,7 +1,9 @@
 package entity
 
+import com.drodobyte.core.kotlin.entity.Entity
+
 data class Pet(
-    override val id: Long = Entity.NEW,
+    override val id: Long?,
     val name: String = "",
     val description: String = "",
     val imageUrl: String = "",

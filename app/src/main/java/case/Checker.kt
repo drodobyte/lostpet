@@ -2,8 +2,8 @@ package case
 
 import case.Checker.Error.ImageEmpty
 import case.Checker.Error.NameEmpty
+import com.drodobyte.core.kotlin.check.Check
 import entity.Pet
-import util.Check
 
 object Checker {
 

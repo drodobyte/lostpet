@@ -1,9 +1,9 @@
 package case
 
 import case.Checker.Error
+import com.drodobyte.core.kotlin.check.Check.OnError
 import entity.Pet
 import service.PetService
-import util.Check.OnError
 
 /**
  * Base Use-Case class

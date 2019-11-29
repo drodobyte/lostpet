@@ -41,7 +41,7 @@ class PetsFragment : AppFragment(), PetSummariesView {
         adapter + summaries
     }
 
-    override fun showPet(id: Long) {
+    override fun showPet(id: Long?) {
         go.pet(id)
     }
 
@@ -50,7 +50,7 @@ class PetsFragment : AppFragment(), PetSummariesView {
             this,
             PetSummariesCaseService(ListPetSummariesCase(Container.petService))
         )
-        adapter = PetsAdapter { clickedPetSummary.onNext(it.id) }
+        adapter = PetsAdapter { clickedPetSummary.onNext(it.id!!) }
         petsView.adapter = adapter
         add_pet.setOnClickListener { clickedNewPet.onNext(Any()) }
         visible.onNext(Any())

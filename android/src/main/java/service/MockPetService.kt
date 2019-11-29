@@ -1,9 +1,9 @@
 package service
 
+import com.drodobyte.core.kotlin.entity.nextId
+import com.drodobyte.core.kotlin.entity.replace
 import entity.Location
 import entity.Pet
-import entity.nextId
-import entity.replace
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single

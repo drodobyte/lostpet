@@ -8,7 +8,7 @@ import io.reactivex.Single
 class PetCaseService(val showCase: ShowPetCase, val saveCase: SavePetCase) :
     PetService {
 
-    override fun newPet() = Single.just(Pet())
+    override fun newPet() = Single.just(Pet(null))
 
     override fun pet(id: Long) = showCase.show(id)
 

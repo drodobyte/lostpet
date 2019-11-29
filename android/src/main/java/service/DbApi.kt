@@ -3,7 +3,6 @@ package service
 import android.content.Context
 import androidx.room.*
 import androidx.room.OnConflictStrategy.IGNORE
-import entity.Entity.Companion.NEW
 import entity.Location
 import entity.Pet
 import io.reactivex.Maybe
@@ -18,8 +17,8 @@ internal object DbApi : PetService {
 
     override fun pet(id: Long) = db.petDao().pet(id).map(DbPet::toPet)
 
-    override fun save(pet: Pet) = when (pet.id) {
-        NEW -> db.petDao().save(pet)
+    override fun save(pet: Pet) = when (pet.isNew()) {
+        true -> db.petDao().save(pet)
         else -> db.petDao().update(pet)
     }.map(DbPet::toPet)
 

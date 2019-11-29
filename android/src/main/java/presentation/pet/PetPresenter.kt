@@ -1,6 +1,5 @@
 package presentation.pet
 
-import entity.Entity.Companion.NEW
 import entity.Pet
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -12,7 +11,7 @@ class PetPresenter(view: PetView, service: PetService) {
                 view.showPet(view.filledPet())
             else
                 when (id) {
-                    NEW -> service.newPet().toMaybe()
+                    null -> service.newPet().toMaybe()
                     else -> service.pet(id)
                 }.subscribe(view::showPet)
         }
@@ -33,7 +32,7 @@ class PetPresenter(view: PetView, service: PetService) {
 }
 
 interface PetView {
-    fun visiblePet(action: (id: Long, editing: Boolean) -> Unit)
+    fun visiblePet(action: (id: Long?, editing: Boolean) -> Unit)
     fun clickedImage(action: (url: String) -> Unit)
     fun clickedMap(action: () -> Unit)
     fun clickedBack(action: () -> Unit)

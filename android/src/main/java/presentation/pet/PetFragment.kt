@@ -7,12 +7,12 @@ import case.Checker.Error.ImageEmpty
 import case.Checker.Error.NameEmpty
 import case.SavePetCase
 import case.ShowPetCase
+import com.drodobyte.core.kotlin.check.Check.Ex
 import drodobytecom.lostpet.R
 import entity.Pet
 import io.reactivex.subjects.PublishSubject.create
 import kotlinx.android.synthetic.main.pet_fragment.*
 import util.*
-import util.Check.*
 
 class PetFragment : AppFragment(), PetView {
 
@@ -21,9 +21,9 @@ class PetFragment : AppFragment(), PetView {
     private val clickedImage = create<String>()
     private val clickedMap = create<Any>()
     private val clickedBack = create<Any>()
-    private val visiblePet = create<Pair<Long, Boolean>>()
+    private val visiblePet = create<Pair<Long?, Boolean>>()
 
-    override fun visiblePet(action: (Long, Boolean) -> Unit) {
+    override fun visiblePet(action: (Long?, Boolean) -> Unit) {
         visiblePet.xSubscribe { (id, editing) -> action(id, editing) }
     }
 
@@ -59,7 +59,7 @@ class PetFragment : AppFragment(), PetView {
     }
 
     override fun showErrorSave(ex: Throwable) {
-        if (ex is CheckException)
+        if (ex is Ex)
             when {
                 NameEmpty in ex.errors -> pet_name.error = "Name cannot be empty"
                 ImageEmpty in ex.errors -> showError("Image cannot be empty")
@@ -107,6 +107,6 @@ class PetFragment : AppFragment(), PetView {
         requireActivity().onBackPressed {
             clickedBack.onNext(Any())
         }
-        visiblePet.onNext(Pair(go.args.pet().id, !petViewModel.pet.undefined))
+        visiblePet.onNext(Pair(go.args.pet(), !petViewModel.pet.undefined))
     }
 }
