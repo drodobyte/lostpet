@@ -1,2 +1,2 @@
-include ':android', ':app'
-rootProject.name='Lost Pet'
+rootProject.name = 'lostpet'
+
